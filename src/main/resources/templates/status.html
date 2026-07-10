@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/layout :: mainLayout(~{::title}, ~{::main})}">
+<head>
+    <title>About - AI Chat</title>
+</head>
+<body>
+
+    <main>
+        <h2>System Monitor</h2>
+        
+        <div class="dashboard-grid">
+
+            <div class="card">
+                <h3>System Info</h3>
+                <div id="info-loading">Loading system details...</div>
+                <div id="info-content" style="display: none;">
+                    <p>Status: <span id="system-status"></span></p>
+                    <p>Version: <span id="system-version"></span></p>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Model Status</h3>
+                <div id="status-loading">Loading status...</div>
+                <div id="status-content" style="display: none;">
+                    <p><strong>Model:</strong> <span id="model-name"></span></p>
+                    <p><strong>Provider:</strong> <span id="model-provider"></span></p>
+                </div>
+            </div>
+        </div>
+        
+
+            
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                // Fetch from your first hard-coded API endpoint
+                fetch('/api/status')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('model-name').textContent = data.modelName;
+                        document.getElementById('model-provider').textContent = data.provider;
+                        document.getElementById('status-loading').style.display = 'none';
+                        document.getElementById('status-content').style.display = 'block';
+                    });
+
+                // Fetch from your second hard-coded API endpoint
+                fetch('/api/model/status')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('system-status').textContent = data.status;
+                        document.getElementById('system-version').textContent = data.version;
+                        document.getElementById('info-loading').style.display = 'none';
+                        document.getElementById('info-content').style.display = 'block';
+                    });
+            });
+        </script>
+    </main>
+
+    
+
+</body>
+</html>
