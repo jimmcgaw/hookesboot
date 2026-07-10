@@ -17,3 +17,6 @@ start:
 
 stop:
 	docker compose down
+
+logs:
+	docker compose logs hookes-app -f
