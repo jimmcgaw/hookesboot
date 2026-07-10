@@ -1,5 +1,5 @@
 
-debug:
+local:
 	./gradlew bootRun
 
 # build a "cloud-native buildpack"

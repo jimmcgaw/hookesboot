@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AboutPageController {
 
     @GetMapping("/about")
-    public String serveCustomPage() {
-        // Forward to the static file's relative path inside the static folder
-        return "forward:/pages/about.html";
+    public String about() {
+        // Points directly to src/main/resources/templates/about.html
+        return "about"; 
     }
 }
