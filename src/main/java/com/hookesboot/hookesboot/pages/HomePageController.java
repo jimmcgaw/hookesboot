@@ -10,6 +10,6 @@ public class HomePageController {
     @GetMapping({"", "/"})
     public String index() {
         // Points directly to src/main/resources/templates/index.html
-        return "index"; 
+        return "index";
     }
 }

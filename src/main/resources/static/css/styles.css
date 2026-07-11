@@ -140,3 +140,47 @@ main {
         transform: translateY(0);
     }
 }
+
+
+/* --- Navigation Bar Layout --- */
+nav {
+    background-color: #1e293b; /* Matches your header background dark slate */
+    border-bottom: 1px solid #334155; /* Subtle separation border */
+    padding: 0 2rem;
+}
+
+.site-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Centers the links. Change to flex-start if you want them left-aligned */
+    gap: 1.5rem;
+}
+
+/* --- Navigation Links --- */
+.site-nav li {
+    display: inline-block;
+}
+
+.site-nav a {
+    display: block;
+    padding: 1rem 0.75rem;
+    color: #94a3b8; /* Muted slate blue for unselected items */
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.2s, border-color 0.2s;
+    border-bottom: 2px solid transparent; /* Prevents layout shifting on hover */
+}
+
+/* --- Hover and Active States --- */
+.site-nav a:hover {
+    color: #ffffff; /* Bright crisp text on hover */
+}
+
+/* Optional: If you want to dynamically highlight the current active page */
+.site-nav a.active {
+    color: #3b82f6; /* Modern theme accent blue */
+    border-bottom-color: #3b82f6; 
+}

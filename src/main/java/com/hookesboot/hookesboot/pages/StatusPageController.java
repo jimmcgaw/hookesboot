@@ -9,6 +9,6 @@ public class StatusPageController {
 
     @GetMapping("/status")
     public String status() {
-        return "status"; 
+        return "status";
     }
 }

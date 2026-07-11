@@ -10,6 +10,6 @@ public class AboutPageController {
     @GetMapping("/about")
     public String about() {
         // Points directly to src/main/resources/templates/about.html
-        return "about"; 
+        return "about";
     }
 }
