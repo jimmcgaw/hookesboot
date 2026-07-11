@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/layout :: mainLayout(~{::title}, ~{::main})}">
+<head>
+    <title>Local Ollama Chat</title>
+    <style>
+        .chat-container { max-width: 600px; margin: 20px auto; display: flex; flex-direction: column; height: 70vh; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .message-window { flex: 1; padding: 20px; overflow-y: auto; border-bottom: 1px solid #eee; display: flex; flex-direction: column; gap: 10px; }
+        .bubble { padding: 10px 15px; border-radius: 15px; max-width: 75%; word-wrap: break-word; }
+        .user-bubble { background: #007bff; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        .ai-bubble { background: #e9ecef; color: #333; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .input-area { display: flex; padding: 15px; gap: 10px; }
+        .input-area input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .input-area button { padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="chat-container">
+            <div class="message-window" id="messageWindow">
+                <div class="bubble ai-bubble">Hello! I am your local Ollama instance. Ask me anything.</div>
+            </div>
+
+            <form class="input-area" id="chatForm">
+                <input type="text" id="userInput" placeholder="Type your prompt here..." required autocomplete="off">
+                <button type="submit" id="sendBtn">Send</button>
+            </form>
+        </div>
+
+        <script>
+            const chatForm = document.getElementById('chatForm');
+            const userInput = document.getElementById('userInput');
+            const messageWindow = document.getElementById('messageWindow');
+            const sendBtn = document.getElementById('sendBtn');
+
+            function appendBubble(text, isUser) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble', isUser ? 'user-bubble' : 'ai-bubble');
+                bubble.textContent = text;
+                messageWindow.appendChild(bubble);
+                messageWindow.scrollTop = messageWindow.scrollHeight; // Auto-scroll to bottom
+            }
+
+            chatForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const prompt = userInput.value.trim();
+                if (!prompt) return;
+
+                // 1. Append user's message right away
+                appendBubble(prompt, true);
+                userInput.value = '';
+                
+                // Disable UI while waiting for the proxy response
+                sendBtn.disabled = true;
+                sendBtn.textContent = "Thinking...";
+
+                try {
+                    // 2. POST asynchronously to your Spring API endpoint
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: prompt })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        // 3. Append the AI's proxy response back into the DOM
+                        appendBubble(data.reply, false);
+                    } else {
+                        appendBubble("Error: Could not retrieve response from Ollama.", false);
+                    }
+                } catch (error) {
+                    appendBubble("Error: Network issue or local server down.", false);
+                } finally {
+                    sendBtn.disabled = false;
+                    sendBtn.textContent = "Send";
+                }
+            });
+        </script>
+    </main>
+</body>
+</html>

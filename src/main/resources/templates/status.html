@@ -35,7 +35,7 @@
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 // Fetch from your first hard-coded API endpoint
-                fetch('/api/status')
+                fetch('/api/model/status')
                     .then(response => response.json())
                     .then(data => {
                         document.getElementById('model-name').textContent = data.modelName;
@@ -45,7 +45,7 @@
                     });
 
                 // Fetch from your second hard-coded API endpoint
-                fetch('/api/model/status')
+                fetch('/api/status')
                     .then(response => response.json())
                     .then(data => {
                         document.getElementById('system-status').textContent = data.status;

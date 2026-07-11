@@ -1,4 +1,7 @@
 
+compile:
+	./gradlew build
+
 local:
 	./gradlew bootRun
 
