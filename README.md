@@ -44,7 +44,7 @@ docker compose build
 docker compose up -d
 ```
 
-On first boot, give the model a minute or two to pull the model.
+On first boot, give the Ollama container a minute or two to pull the model.
 
 Stop:
 
